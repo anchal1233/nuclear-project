@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const Item = require('../models/Item');
 const router = express.Router();
 
-// Middleware to verify token
+
 const authenticate = (req, res, next) => {
   const token = req.headers.authorization?.split(' ')[1];
   if (!token) return res.status(401).json({ message: 'Unauthorized' });
@@ -15,7 +15,7 @@ const authenticate = (req, res, next) => {
   });
 };
 
-// Create Item
+
 router.post('/', authenticate, async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -26,7 +26,7 @@ router.post('/', authenticate, async (req, res) => {
   }
 });
 
-// Get All Items
+
 router.get('/', authenticate, async (req, res) => {
   try {
     const items = await Item.find({ userId: req.userId });
@@ -36,7 +36,7 @@ router.get('/', authenticate, async (req, res) => {
   }
 });
 
-// Update Item
+
 router.put('/:id', authenticate, async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -51,7 +51,7 @@ router.put('/:id', authenticate, async (req, res) => {
   }
 });
 
-// Delete Item
+
 router.delete('/:id', authenticate, async (req, res) => {
   try {
     await Item.findByIdAndDelete(req.params.id);
